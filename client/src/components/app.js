@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import Table from "./Table";
-import RoleChange from "./RoleChange";
 import Footer from "./footer";
 
 export default class App extends Component {
@@ -17,7 +16,6 @@ export default class App extends Component {
         <div style={{ height: "50px" }}>Hello World</div>
         <div style={{ display: "flex" }}>
           <Table />
-          <RoleChange />
         </div>
         <Footer />
       </div>
