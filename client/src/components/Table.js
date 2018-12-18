@@ -182,13 +182,14 @@ class Table extends Component {
           <form
             onSubmit={e => {
               e.preventDefault();
-              console.log(`form submited`);
-              this.props.actions.editProduct({
-                index: this.state.datum.id,
-                price: this.state.datum.price,
-                name: this.state.datum.name
-              });
-              this.setState({ openModal: false, normalizeData: false });
+              if (this.state.datum.price && this.state.datum.name) {
+                this.props.actions.editProduct({
+                  index: this.state.datum.id,
+                  price: this.state.datum.price,
+                  name: this.state.datum.name
+                });
+                this.setState({ openModal: false, normalizeData: false });
+              }
             }}
           >
             Product Name:
@@ -242,16 +243,17 @@ class Table extends Component {
           <form
             onSubmit={e => {
               e.preventDefault();
-              console.log(`form submited`);
-              this.props.actions.createProduct({
-                index: this.state.rows.length + 1,
-                price: this.state.datum.price,
-                name: this.state.datum.name
-              });
-              this.setState({
-                addProductModalShow: false,
-                normalizeData: false
-              });
+              if (this.state.datum.price && this.state.datum.name) {
+                this.props.actions.createProduct({
+                  index: this.state.rows.length + 1,
+                  price: this.state.datum.price,
+                  name: this.state.datum.name
+                });
+                this.setState({
+                  addProductModalShow: false,
+                  normalizeData: false
+                });
+              }
             }}
           >
             Product Name:

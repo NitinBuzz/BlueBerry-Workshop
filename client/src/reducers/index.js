@@ -14,8 +14,6 @@ const issuesReducer = (state = {}, action) => {
       return { ...state, products: newProducts };
     case "CREATE_PRODUCT":
       let newproductz = [...state.products, action.product];
-      console.log(`thissssss ${JSON.stringify(action.product)}`);
-      console.log(`new ${JSON.stringify(newproductz)}`);
       return { ...state, products: newproductz };
     case "DELETE_PRODUCT":
       let newProductsE = state.products.map(item => {
@@ -23,7 +21,6 @@ const issuesReducer = (state = {}, action) => {
           return item;
         }
       });
-      console.log(`thissssss ${JSON.stringify(newProductsE)}`);
       return { ...state, products: newProductsE };
     case "GET_ISSUES":
       return { ...state, ...action.issues };
