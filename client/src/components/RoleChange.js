@@ -6,10 +6,15 @@ class RoleChange extends Component {
   }
   render() {
     return (
-      <div onChange={e => this.props.updateRole(event.target.value)}>
-        <input type="radio" value="Admin" name="gender" /> Admin
-        <input type="radio" value="Editor" name="gender" /> Editor
-        <input type="radio" value="Viewer" name="gender" /> Viewer
+      <div
+        className="role-change"
+        onChange={e => this.props.updateRole(event.target.value)}
+      >
+        <p> Role Selector </p>
+        <br />
+        <input type="radio" value="Admin" name="gender" /> Admin <br />
+        <input type="radio" value="Editor" name="gender" /> Editor <br />
+        <input type="radio" value="Viewer" name="gender" /> Viewer <br />
       </div>
     );
   }

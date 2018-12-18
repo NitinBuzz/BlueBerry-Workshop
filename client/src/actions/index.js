@@ -5,25 +5,24 @@ export const decrementCounter = () => ({
   type: "COUNTER_DECREMENT"
 });
 
-export const deleteProduct = id => ({
+export const deleteProduct = product => ({
   type: "DELETE_PRODUCT",
-  id
+  product
 });
 
 export const getProduct = () => ({
   type: "GET_PRODUCT",
-  products: Products
+  products: Products.slice(0, 10)
 });
 
-export const editProduct = id => ({
+export const editProduct = product => ({
   type: "EDIT_PRODUCT",
-  id
+  product
 });
 
-export const createProduct = (name, price) => ({
+export const createProduct = product => ({
   type: "CREATE_PRODUCT",
-  name,
-  price
+  product
 });
 
 export const tweakLoader = loader => ({

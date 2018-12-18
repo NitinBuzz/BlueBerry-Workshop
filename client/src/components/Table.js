@@ -1,17 +1,26 @@
 import React, { Component } from "react";
-import ReactModal from "react-modal";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { getProduct } from "../actions";
+import {
+  getProduct,
+  editProduct,
+  deleteProduct,
+  createProduct
+} from "../actions";
 
 import RoleChange from "./RoleChange";
 
-const heading = "hhhhh";
-const full_description = "hhhhhhhhhhhhhhhhhhhhhhh";
 class Table extends Component {
   constructor(props) {
     super(props);
-    this.state = { rows: [], normalisedData: false, role: "" };
+    this.state = {
+      rows: [],
+      normalisedData: false,
+      role: "Viewer",
+      openModal: false,
+      datum: {},
+      addProductModalShow: false
+    };
   }
   componentDidMount() {
     this.props.actions.getProduct();
@@ -27,19 +36,65 @@ class Table extends Component {
     if (this.state.role === "Admin") {
       return (
         <React.Fragment>
-          <button onClick={e => console.log(product.id)}>Delete</button>
+          <button
+            className="button"
+            onClick={() => {
+              this.setState({ openModal: true, datum: product }, () => {
+                console.log(
+                  `modal set open true ${JSON.stringify(this.state.datum)}`
+                );
+              });
+            }}
+          >
+            Edit
+          </button>
+          <span style={{ paddingRight: "20px" }} />
+          <button
+            className="button button3"
+            onClick={() => {
+              this.props.actions.deleteProduct({
+                index: product.id,
+                price: product.price,
+                name: product.name
+              });
+              this.setState({ normalizeData: false });
+            }}
+          >
+            Delete
+          </button>
         </React.Fragment>
       );
     } else if (this.state.role === "Editor") {
       return (
         <React.Fragment>
-          <button onClick={e => console.log(product.id)}>Edit</button>
+          <button
+            className="button"
+            onClick={() => {
+              this.setState({ openModal: true, datum: product }, () => {
+                console.log(
+                  `modal set open true ${JSON.stringify(this.state.datum)}`
+                );
+              });
+            }}
+          >
+            Edit
+          </button>
+          <span style={{ paddingRight: "20px" }} />
+          <button className="button button3 disabled" disabled={true}>
+            Delete
+          </button>
         </React.Fragment>
       );
     } else if (this.state.role === "Viewer") {
       return (
         <React.Fragment>
-          <button disabled={true}>Delete</button>
+          <button className="button disabled" disabled={true}>
+            Edit
+          </button>
+          <span style={{ paddingRight: "20px" }} />
+          <button className="button button3 disabled" disabled={true}>
+            Delete
+          </button>
         </React.Fragment>
       );
     } else {
@@ -50,8 +105,11 @@ class Table extends Component {
   normalizeData = () => {
     let rowsEx = [];
     if (this.props.products != undefined) {
-      this.props.products.forEach(({ index, name, price }) => {
-        rowsEx.push({ id: index, name: name, price: price });
+      this.props.products.forEach(item => {
+        if (item != null) {
+          const { index, name, price } = item;
+          rowsEx.push({ id: index, name: name, price: price });
+        }
       });
       this.setState({ rows: rowsEx }, () => {
         this.setState({ normalizeData: true });
@@ -107,6 +165,129 @@ class Table extends Component {
     return toReturn;
   };
 
+  renderModal = () => {
+    return (
+      <div className="modal">
+        <div className="modal-content">
+          <span
+            className="close"
+            onClick={() => {
+              this.setState({ openModal: false });
+            }}
+          >
+            &times;
+          </span>
+          <p>Product Editor Form</p>
+          <br />
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              console.log(`form submited`);
+              this.props.actions.editProduct({
+                index: this.state.datum.id,
+                price: this.state.datum.price,
+                name: this.state.datum.name
+              });
+              this.setState({ openModal: false, normalizeData: false });
+            }}
+          >
+            Product Name:
+            <br />
+            <input
+              type="text"
+              name="name"
+              onChange={e => {
+                this.setState({
+                  datum: { ...this.state.datum, name: e.target.value }
+                });
+              }}
+              value={this.state.datum.name}
+            />
+            <br />
+            Price:
+            <br />
+            <input
+              type="text"
+              name="price"
+              onChange={e => {
+                this.setState({
+                  datum: { ...this.state.datum, price: e.target.value }
+                });
+              }}
+              value={this.state.datum.price}
+            />
+            <br />
+            <br />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      </div>
+    );
+  };
+
+  renderAddModal = () => {
+    return (
+      <div className="modal">
+        <div className="modal-content">
+          <span
+            className="close"
+            onClick={() => {
+              this.setState({ addProductModalShow: false });
+            }}
+          >
+            &times;
+          </span>
+          <p>Product Adder Form</p>
+          <br />
+          <form
+            onSubmit={e => {
+              e.preventDefault();
+              console.log(`form submited`);
+              this.props.actions.createProduct({
+                index: this.state.rows.length + 1,
+                price: this.state.datum.price,
+                name: this.state.datum.name
+              });
+              this.setState({
+                addProductModalShow: false,
+                normalizeData: false
+              });
+            }}
+          >
+            Product Name:
+            <br />
+            <input
+              type="text"
+              name="name"
+              onChange={e => {
+                this.setState({
+                  datum: { ...this.state.datum, name: e.target.value }
+                });
+              }}
+              value={this.state.datum.name}
+            />
+            <br />
+            Price:
+            <br />
+            <input
+              type="text"
+              name="price"
+              onChange={e => {
+                this.setState({
+                  datum: { ...this.state.datum, price: e.target.value }
+                });
+              }}
+              value={this.state.datum.price}
+            />
+            <br />
+            <br />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
+      </div>
+    );
+  };
+
   render() {
     return (
       <div
@@ -115,25 +296,8 @@ class Table extends Component {
           display: "flex"
         }}
       >
-        <ReactModal
-          isOpen={false}
-          contentLabel="Example Modal"
-          bodyOpenClassName="ReactModal__Body--open"
-          htmlOpenClassName="ReactModal__Html--open"
-          ariaHideApp={true}
-          shouldFocusAfterRender={true}
-          shouldCloseOnOverlayClick={true}
-          shouldCloseOnEsc={true}
-          shouldReturnFocusAfterClose={true}
-          role="dialog"
-          aria={{
-            labelledby: "heading",
-            describedby: "full_description"
-          }}
-          data={{
-            background: "green"
-          }}
-        />
+        {this.state.openModal ? this.renderModal() : null}
+        {this.state.addProductModalShow ? this.renderAddModal() : null}
         {!this.state.normalizeData && this.props.products != undefined
           ? this.normalizeData()
           : null}
@@ -184,9 +348,19 @@ class Table extends Component {
               Action
             </th>
           </tr>
-          {this.props.products != undefined ? this.renderTable() : null}
+          {this.renderTable()}
         </table>
         <div style={{ width: "200px", color: "#ffffff" }}>
+          <div className="adder">
+            <button
+              className="button button2"
+              onClick={() => {
+                this.setState({ addProductModalShow: true });
+              }}
+            >
+              Add a Product
+            </button>
+          </div>
           <RoleChange updateRole={this.updateRole} />
         </div>
       </div>
@@ -200,7 +374,10 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    actions: bindActionCreators({ getProduct }, dispatch)
+    actions: bindActionCreators(
+      { getProduct, editProduct, deleteProduct, createProduct },
+      dispatch
+    )
   };
 };
 

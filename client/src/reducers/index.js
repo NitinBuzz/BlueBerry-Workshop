@@ -1,22 +1,30 @@
 import { combineReducers } from "redux";
 
-const fakeReducer = (state = {}, action) => {
-  switch (action.type) {
-    case "Loader_Tweak":
-      return action.loader == true ? false : true;
-    case "COUNTER_INCREMENT":
-      return state + 1;
-    case "COUNTER_DECREMENT":
-      return state;
-    default:
-      return state;
-  }
-};
-
 const issuesReducer = (state = {}, action) => {
   switch (action.type) {
     case "GET_PRODUCT":
       return { ...state, products: action.products };
+    case "EDIT_PRODUCT":
+      let newProducts = state.products.map(item => {
+        if (item && item.index === action.product.index) {
+          return action.product;
+        }
+        return item;
+      });
+      return { ...state, products: newProducts };
+    case "CREATE_PRODUCT":
+      let newproductz = [...state.products, action.product];
+      console.log(`thissssss ${JSON.stringify(action.product)}`);
+      console.log(`new ${JSON.stringify(newproductz)}`);
+      return { ...state, products: newproductz };
+    case "DELETE_PRODUCT":
+      let newProductsE = state.products.map(item => {
+        if (item && item.index != action.product.index) {
+          return item;
+        }
+      });
+      console.log(`thissssss ${JSON.stringify(newProductsE)}`);
+      return { ...state, products: newProductsE };
     case "GET_ISSUES":
       return { ...state, ...action.issues };
     default:
@@ -25,7 +33,6 @@ const issuesReducer = (state = {}, action) => {
 };
 
 const rootReducer = combineReducers({
-  fakeReducer,
   products: issuesReducer
 });
 

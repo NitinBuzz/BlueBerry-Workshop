@@ -1,15 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import promiseMiddleware from 'redux-promise';
-import thunk from 'redux-thunk';
-import { createStore, applyMiddleware, compose } from 'redux';
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import promiseMiddleware from "redux-promise";
+import thunk from "redux-thunk";
+import { createStore, applyMiddleware, compose } from "redux";
 
-import App from './components/app';
-import reducers from './reducers';
+import App from "./components/app";
+import reducers from "./reducers";
+import "../style/style.css";
 
 const composeEnhancers =
-  typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+  typeof window === "object" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({
         // Specify extension’s options like name, actionsBlacklist, actionsCreators, serialize...
       })
@@ -26,5 +27,5 @@ ReactDOM.render(
       <App />
     </div>
   </Provider>,
-  document.querySelector('.container')
+  document.querySelector(".container")
 );

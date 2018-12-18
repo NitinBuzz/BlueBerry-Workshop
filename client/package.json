@@ -36,6 +36,7 @@
     "material-ui": "",
     "node-sass": "",
     "normalize.css": "",
+    "random-id": "^1.0.3",
     "react": "",
     "react-bootstrap": "^0.32.1",
     "react-dom": "",
