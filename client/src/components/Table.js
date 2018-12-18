@@ -352,7 +352,7 @@ class Table extends Component {
           </tr>
           {this.renderTable()}
         </table>
-        <div style={{ width: "200px", color: "#ffffff" }}>
+        <div style={{ color: "#ffffff" }}>
           <div className="adder">
             <button
               className="button button2"

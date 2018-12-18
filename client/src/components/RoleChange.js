@@ -12,9 +12,22 @@ class RoleChange extends Component {
       >
         <p> Role Selector </p>
         <br />
-        <input type="radio" value="Admin" name="gender" /> Admin <br />
-        <input type="radio" value="Editor" name="gender" /> Editor <br />
-        <input type="radio" value="Viewer" name="gender" /> Viewer <br />
+        <input type="radio" value="Admin" name="gender" />
+        Admin (can edit and delete) <br />
+        <input
+          style={{ marginTop: "6px" }}
+          type="radio"
+          value="Editor"
+          name="gender"
+        />
+        Editor (can only edit) <br />
+        <input
+          style={{ marginTop: "6px" }}
+          type="radio"
+          value="Viewer"
+          name="gender"
+        />
+        Viewer (default, can only view) <br />
       </div>
     );
   }
