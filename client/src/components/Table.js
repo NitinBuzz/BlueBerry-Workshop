@@ -245,7 +245,7 @@ class Table extends Component {
               e.preventDefault();
               if (this.state.datum.price && this.state.datum.name) {
                 this.props.actions.createProduct({
-                  index: this.state.rows.length + 1,
+                  index: this.state.rows[this.state.rows.length - 1]["id"] + 1,
                   price: this.state.datum.price,
                   name: this.state.datum.name
                 });
